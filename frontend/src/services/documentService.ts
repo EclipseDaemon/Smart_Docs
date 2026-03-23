@@ -1,10 +1,10 @@
 import api from '../api/axios'
-import type  { Document } from '../types'
+import type { Document } from '../types'
 
 export const documentService = {
   async getDocuments(): Promise<Document[]> {
-    const response = await api.get<Document[]>('/documents')
-    return response.data
+    const response = await api.get<{ documents: Document[], total: number }>('/documents')
+    return response.data.documents
   },
 
   async uploadDocument(file: File): Promise<Document> {
@@ -21,7 +21,7 @@ export const documentService = {
   },
 
   async searchDocuments(query: string): Promise<Document[]> {
-    const response = await api.get<Document[]>(`/search?q=${query}`)
-    return response.data
+    const response = await api.get<{ documents: Document[], total: number }>(`/search?q=${query}`)
+    return response.data.documents
   }
 }
